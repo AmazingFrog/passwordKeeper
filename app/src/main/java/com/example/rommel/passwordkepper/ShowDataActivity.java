@@ -87,19 +87,19 @@ public class ShowDataActivity extends AppCompatActivity {
 
     /**
      * 检查用户名和密码是否合法
-     * @return Define.USER_NAME_ERROR 用户名错误或不够6个字符
-     *         Define.USER_PASSWORD_ERROR 用户密码非法或不够6个字符
+     * @return Define.USER_NAME_ERROR 用户名错误
+     *         Define.USER_PASSWORD_ERROR 用户密码非法
      *         Define.NO_ERROR 用户名和密码合法
      */
     private int checkUserNameAndPassword(){
         String userNameString = name.getText().toString();
         String userPasswordString = password.getText().toString();
-        if(userNameString.equals("") || userNameString.length() < 6){
+        if(userNameString.equals("")){
             Log.d(TAG,"user name illegal");
             Toast.makeText(ShowDataActivity.this,R.string.loginActivity_userNameError,Toast.LENGTH_SHORT).show();
             return Define.USER_NAME_ERROR;
         }
-        else if(userPasswordString.equals("") || userPasswordString.length() < 6){
+        else if(userPasswordString.equals("")){
             Log.d(TAG,"user password illegal");
             Toast.makeText(ShowDataActivity.this,R.string.loginActivity_userPasswordError,Toast.LENGTH_SHORT).show();
             return Define.USER_PASSWORD_ERROR;

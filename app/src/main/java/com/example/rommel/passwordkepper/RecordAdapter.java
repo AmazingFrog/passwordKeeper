@@ -29,15 +29,31 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
     public RecordAdapter(List<Record> li) {
         l = li;
     }
+
+    /**
+     * 在position位置显示添加动画
+     * @param position “添加”动画要展示的位置
+     */
     public void add(int position){
         notifyItemInserted(position);
     }
+
+    /**
+     * 在position位置显示删除动画
+     * @param position “删除“动画要展示的位置
+     */
     public void delete(int position){
         notifyItemRemoved(position);
     }
+
+    /**
+     * 在position位置显示改变动画
+     * @param position ”改变“动画要展示的位置
+     */
     public void change(int position){
         notifyItemChanged(position);
     }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

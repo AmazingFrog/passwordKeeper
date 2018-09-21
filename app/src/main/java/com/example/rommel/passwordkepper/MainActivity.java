@@ -7,10 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -22,9 +19,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
@@ -161,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
                         PassRecord passRecord = data.getParcelableExtra("data_return");
                         Record update = new Record(passRecord.getRemake(),passRecord.getPassword(),passRecord.getName());
                         int subscript = data.getIntExtra("subscript",-1);
-                        userData.getL().set(subscript,update);
+                        userData.update(subscript,update);
                         recordAdapter.change(subscript);
                     }
                 }
