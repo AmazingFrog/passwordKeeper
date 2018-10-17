@@ -3,15 +3,16 @@ package com.example.rommel.passwordkepper;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 public class AddRecordActivity extends AppCompatActivity {
+    private static final String TAG = "AddRecordActivity";
 
-
-    private EditText remake;
+    private EditText remark;
     private EditText name;
     private EditText password;
     private Button add;
@@ -27,7 +28,8 @@ public class AddRecordActivity extends AppCompatActivity {
      * 初始化控件
      */
     private void initWidget(){
-        remake = findViewById(R.id.addRemake);
+        Log.d(TAG,"in initwidget");
+        remark = findViewById(R.id.addremark);
         name = findViewById(R.id.addUserName);
         password = findViewById(R.id.addUserPassword);
         add = findViewById(R.id.confirm);
@@ -46,11 +48,11 @@ public class AddRecordActivity extends AppCompatActivity {
         if(password.getText().toString().equals("")) {
             Toast.makeText(AddRecordActivity.this,"password error",Toast.LENGTH_SHORT).show();
         }
-        else if(remake.getText().toString().equals("")){
-            Toast.makeText(AddRecordActivity.this,"remake error",Toast.LENGTH_SHORT).show();
+        else if(remark.getText().toString().equals("")){
+            Toast.makeText(AddRecordActivity.this,"remark error",Toast.LENGTH_SHORT).show();
         }
         else{
-            r = new Record(remake.getText().toString(),password.getText().toString(),name.getText().toString());
+            r = new Record(remark.getText().toString(),password.getText().toString(),name.getText().toString());
             PassRecord passRecord = new PassRecord(r);
             Intent intent = new Intent();
             intent.putExtra("data_return",passRecord);

@@ -4,31 +4,31 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class PassRecord implements Parcelable {
-    private String remake;
+    private String remark;
     private String name;
     private String password;
     public PassRecord(){
-        this.remake = "";
+        this.remark = "";
         this.name = "no_user_name";
         this.password = "";
     }
     public PassRecord(String r,String p,String n){
-        this.remake = r;
+        this.remark = r;
         this.password = p;
         this.name = n;
     }
     public PassRecord(Record r){
-        this.remake = r.getRemake();
+        this.remark = r.getRemark();
         this.password = r.getPassword();
         this.name = r.getName();
     }
     protected PassRecord(Parcel in){
-        this.remake = in.readString();
+        this.remark = in.readString();
         this.password = in.readString();
         this.name = in.readString();
     }
-    public String getRemake() {
-        return remake;
+    public String getRemark() {
+        return remark;
     }
     public String getPassword() {
         return password;
@@ -53,7 +53,7 @@ public class PassRecord implements Parcelable {
     }
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(this.remake);
+        parcel.writeString(this.remark);
         parcel.writeString(this.password);
         parcel.writeString(this.name);
     }

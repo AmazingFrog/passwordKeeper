@@ -18,12 +18,12 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
     static class ViewHolder extends RecyclerView.ViewHolder{
         Button deleteButton;
         Button showButton;
-        TextView remakeMessage;
+        TextView remarkMessage;
         public ViewHolder(View v){
             super(v);
             deleteButton = v.findViewById(R.id.delete);
             showButton = v.findViewById(R.id.show);
-            remakeMessage = v.findViewById(R.id.remake);
+            remarkMessage = v.findViewById(R.id.remark);
         }
     }
     public RecordAdapter(List<Record> li) {
@@ -59,7 +59,6 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_recode,parent,false);
         final ViewHolder holder = new ViewHolder(v);
-        //holder.showButton.setOnClickListener();
         holder.showButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -79,6 +78,7 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
                 Record re = l.get(position);
                 position = l.indexOf(re);
                 l.remove(re);
+                MainActivity.db.del(re);
                 delete(position);
             }
         });
@@ -87,7 +87,7 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
     @Override
     public void onBindViewHolder(ViewHolder holder,int position){
         Record r = l.get(position);
-        holder.remakeMessage.setText(r.getRemake());
+        holder.remarkMessage.setText(r.getRemark());
     }
     @Override
     public int getItemCount(){

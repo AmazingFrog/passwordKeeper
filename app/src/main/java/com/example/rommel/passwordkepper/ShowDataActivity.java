@@ -12,7 +12,7 @@ import android.widget.Toast;
 public class ShowDataActivity extends AppCompatActivity {
     private static final String TAG = "ShowDataActivity";
 
-    private EditText remake;
+    private EditText remark;
     private EditText password;
     private EditText name;
 
@@ -33,15 +33,16 @@ public class ShowDataActivity extends AppCompatActivity {
      * 初始化控件
      */
     private void initWidget(){
+        Log.d(TAG,"in initWidget");
         isModify = false;
-        remake = findViewById(R.id.show_remake);
+        remark = findViewById(R.id.show_remark);
         password = findViewById(R.id.show_password);
         name = findViewById(R.id.show_name);
         Intent intent = getIntent();
         PassRecord passRecord = intent.getParcelableExtra("data_pass");
         modifySubscript = intent.getIntExtra("subscript",-1);
-        remake.setText(passRecord.getRemake());
-        remake.setFocusable(false);
+        remark.setText(passRecord.getRemark());
+        remark.setFocusable(false);
         password.setText(passRecord.getPassword());
         password.setFocusable(false);
         name.setText(passRecord.getName());
@@ -60,7 +61,7 @@ public class ShowDataActivity extends AppCompatActivity {
                 }
                 else {
                     if(checkUserNameAndPassword() == Define.NO_ERROR){
-                        PassRecord passRecord = new PassRecord(remake.getText().toString(),password.getText().toString(),name.getText().toString());
+                        PassRecord passRecord = new PassRecord(remark.getText().toString(),password.getText().toString(),name.getText().toString());
                         Intent intent = new Intent();
                         intent.putExtra("isUpdate",true);
                         intent.putExtra("subscript",modifySubscript);
@@ -74,8 +75,8 @@ public class ShowDataActivity extends AppCompatActivity {
         modify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                remake.setFocusable(true);
-                remake.setFocusableInTouchMode(true);
+                remark.setFocusable(true);
+                remark.setFocusableInTouchMode(true);
                 password.setFocusable(true);
                 password.setFocusableInTouchMode(true);
                 name.setFocusable(true);

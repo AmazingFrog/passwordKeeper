@@ -26,22 +26,25 @@ public class MainActivity extends AppCompatActivity {
     private Button changeUser;
     private Button addRecord;
 
+    public static DatabaseHelper db;
     private UserData userData;
     private RecyclerView show;
     RecordAdapter recordAdapter;
-    private String filePath;
+    private String dbName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initWidget();
+
     }
 
     /**
      * 初始化控件
      */
     private void initWidget(){
+        Log.d(TAG,"in initWidget");
         userData = new UserData();
         readData();
         recordAdapter = new RecordAdapter(userData.getL());
@@ -54,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         changeUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveData();
+                //saveData();
                 finish();
             }
         });
@@ -72,70 +75,14 @@ public class MainActivity extends AppCompatActivity {
      */
     private void readData(){
         Intent intent = getIntent();
-        filePath = intent.getStringExtra("data_pass");
-        try{
-            FileInputStream Fin=new FileInputStream(filePath);
-            InputStreamReader reader = new InputStreamReader(Fin);
-            BufferedReader Bin = new BufferedReader(reader);
-            StringBuffer total = new StringBuffer();
-            String line;
-            while((line=Bin.readLine()) != null){
-                total.append(line);
-            }
-            //初始化链表
-            JSONObject j = new JSONObject(total.toString());
-            JSONArray array = j.getJSONArray("root");
-            for(int i=0; i<array.length();++i){
-                JSONObject re = array.getJSONObject(i);
-                userData.add(new Record(re.getString("remake"),re.getString("password"),re.getString("name")));
-            }
-        }
-        catch(JSONException e){
-            e.printStackTrace();
-        }
-        catch(FileNotFoundException e){
-            e.printStackTrace();
-        }
-        catch (IOException e){
-            e.printStackTrace();
-        }
+        dbName = intent.getStringExtra("data_pass");
+        db = new DatabaseHelper(this,dbName+".db",null,1);
+        userData = db.getData();
     }
-
-    /**
-     * 将userData中的数据以json的格式保存到用户文件
-     */
-    private void saveData(){
-        try{
-            JSONArray array = new JSONArray();
-            JSONObject data = new JSONObject();
-            for(Record i:userData.getL()){
-                JSONObject j = new JSONObject();
-                j.put("remake",i.getRemake());
-                j.put("password",i.getPassword());
-                j.put("name",i.getName());
-                array.put(j);
-            }
-            data.put("root",array);
-            FileOutputStream fos = new FileOutputStream(filePath);
-            fos.write(data.toString().getBytes());
-            fos.close();
-        }
-        catch (JSONException e){
-            e.printStackTrace();
-        }
-        catch(FileNotFoundException e){
-            e.printStackTrace();
-        }
-        catch (IOException e){
-            e.printStackTrace();
-        }
-    }
-
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        saveData();
         finish();
     }
     @Override
@@ -144,19 +91,22 @@ public class MainActivity extends AppCompatActivity {
             case Define.DATA_RETURN:
                 if(resultCode == RESULT_OK){
                     PassRecord Data =  data.getParcelableExtra("data_return");
-                    Record newRecord = new Record(Data.getRemake(),Data.getPassword(),Data.getName());
+                    Record newRecord = new Record(Data.getRemark(),Data.getPassword(),Data.getName());
+                    newRecord.setId(db.insert(newRecord));
                     userData.add(newRecord);
                     recordAdapter.add(userData.getL().size());
+
                 }
                 break;
             case Define.DATA_UPDATE:
                 if(resultCode == RESULT_OK){
                     if(data.getBooleanExtra("isUpdate",true)){
                         PassRecord passRecord = data.getParcelableExtra("data_return");
-                        Record update = new Record(passRecord.getRemake(),passRecord.getPassword(),passRecord.getName());
+                        Record update = new Record(passRecord.getRemark(),passRecord.getPassword(),passRecord.getName());
                         int subscript = data.getIntExtra("subscript",-1);
                         userData.update(subscript,update);
                         recordAdapter.change(subscript);
+                        db.update(update);
                     }
                 }
             default:
@@ -167,5 +117,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy(){
         super.onDestroy();
         userData.getL().clear();
+        db.clear();
     }
 }

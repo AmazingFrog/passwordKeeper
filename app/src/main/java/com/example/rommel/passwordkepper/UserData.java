@@ -15,7 +15,7 @@ public class UserData {
         try{
             for(Record i:l){
                 JSONObject temp = new JSONObject();
-                temp.put("remake",i.getRemake());
+                temp.put("remark",i.getRemark());
                 temp.put("password",i.getPassword());
                 temp.put("name",i.getName());
                 array.put(temp);

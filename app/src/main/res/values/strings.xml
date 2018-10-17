@@ -13,7 +13,7 @@
     <string name="mainActivity_changeUser">切换用户</string>
     <string name="layout_recode_see">查看</string>
     <string name="layout_record_delete">删除</string>
-    <string name="addRecordActivity_addRemake">备注</string>
+    <string name="addRecordActivity_addremark">备注</string>
     <string name="addRecordActivity_mustWrite">必填</string>
     <string name="showDataActivity_confirm">确认</string>
     <string name="showDataActivity_modify">修改</string>
