@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">PasswordKepper</string>
+    <string name="app_name">PasswordKeeper</string>
     <string name="loginActivity_loginButton">登录</string>
     <string name="loginActivity_register">注册</string>
     <string name="loginActivity_quitButton">退出</string>
@@ -9,11 +9,12 @@
     <string name="loginActivity_userPasswordError">用户密码错误</string>
     <string name="loginActivity_userNotRegister">用户尚未注册</string>
     <string name="loginActivity_userAlreadyExists">用户已存在</string>
+    <string name="loginActivity_userRegisterSuccess">用户注册成功</string>
     <string name="mainActivity_addNewRecode">添加记录</string>
     <string name="mainActivity_changeUser">切换用户</string>
     <string name="layout_recode_see">查看</string>
     <string name="layout_record_delete">删除</string>
-    <string name="addRecordActivity_addremark">备注</string>
+    <string name="addRecordActivity_addRemark">备注</string>
     <string name="addRecordActivity_mustWrite">必填</string>
     <string name="showDataActivity_confirm">确认</string>
     <string name="showDataActivity_modify">修改</string>

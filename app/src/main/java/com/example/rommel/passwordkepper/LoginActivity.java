@@ -1,6 +1,7 @@
 package com.example.rommel.passwordkepper;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -50,15 +51,18 @@ public class LoginActivity extends AppCompatActivity {
                 if(checkUserNameAndPassword() == Define.NO_ERROR){
                     String userNameString = userName.getText().toString();
                     String userPasswordString = userPassword.getText().toString();
-                    String userDataFileName = getUserDataFileName(userNameString,userPasswordString);
-                    File f = new File(getExternalFilesDir(null) + "/" + userDataFileName + ".json");
-                    if(!f.exists()){
+                    String userDBName = getUserDataFileName(userNameString,userPasswordString);
+                    SharedPreferences sharedPreferences = getSharedPreferences("data",MODE_PRIVATE);
+                    boolean userAlreadyExists = sharedPreferences.getBoolean(userDBName,false);
+                    if(!userAlreadyExists){
                         Toast.makeText(LoginActivity.this,R.string.loginActivity_userNotRegister,Toast.LENGTH_SHORT).show();
+
                     }
-                    else{
+                    else {
                         Intent intent = new Intent(LoginActivity.this,MainActivity.class);
-                        intent.putExtra("data_pass",userDataFileName);
+                        intent.putExtra("data_pass",userDBName);
                         startActivity(intent);
+
                     }
                 }
 
@@ -72,6 +76,9 @@ public class LoginActivity extends AppCompatActivity {
                 if(checkUserNameAndPassword() == Define.NO_ERROR){
                     if(registerUser(userNameString,userPasswordString) != Define.NO_ERROR){
                         Toast.makeText(LoginActivity.this,R.string.loginActivity_userAlreadyExists,Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        Toast.makeText(LoginActivity.this,R.string.loginActivity_userRegisterSuccess,Toast.LENGTH_SHORT).show();
                     }
                 }
 
@@ -108,19 +115,17 @@ public class LoginActivity extends AppCompatActivity {
      *         Define.NO_ERROR 注册成功
      */
     private int registerUser(String name,String password){
-        String fileName = getUserDataFileName(name,password);
-        File f = new File(getExternalFilesDir(null) + "/" + fileName + ".json");
-        if(f.exists()){
+        SharedPreferences sharedPreferences = getSharedPreferences("data",MODE_PRIVATE);
+        String userDBName = getUserDataFileName(name,password);
+        boolean userAlreadyExists = sharedPreferences.getBoolean(userDBName,false);
+        if(userAlreadyExists){
             Log.d(TAG,"user already exists");
             return Define.USER_ALREADY_REGISTER;
         }
-        else{
-            try{
-                f.createNewFile();
-            }
-            catch (IOException e){
-                e.printStackTrace();
-            }
+        else {
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean(userDBName,true);
+            editor.apply();
             return Define.NO_ERROR;
         }
     }
