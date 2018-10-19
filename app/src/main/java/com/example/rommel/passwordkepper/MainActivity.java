@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
     private void readData(){
         Intent intent = getIntent();
         dbName = intent.getStringExtra("data_pass");
-        db = new DatabaseHelper(this,dbName+".db",null,1);
+        db = new DatabaseHelper(this,dbName+".db",null,2);
         userData = db.getData();
     }
 
@@ -95,7 +95,6 @@ public class MainActivity extends AppCompatActivity {
                     newRecord.setId(db.insert(newRecord));
                     userData.add(newRecord);
                     recordAdapter.add(userData.getL().size());
-
                 }
                 break;
             case Define.DATA_UPDATE:
@@ -104,9 +103,10 @@ public class MainActivity extends AppCompatActivity {
                         PassRecord passRecord = data.getParcelableExtra("data_return");
                         Record update = new Record(passRecord.getRemark(),passRecord.getPassword(),passRecord.getName());
                         int subscript = data.getIntExtra("subscript",-1);
+                        update.setId(userData.getRecordId(subscript));
+                        db.update(update);
                         userData.update(subscript,update);
                         recordAdapter.change(subscript);
-                        db.update(update);
                     }
                 }
             default:
